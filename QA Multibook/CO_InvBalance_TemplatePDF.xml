@@ -1,0 +1,72 @@
+<#assign data = input.data?eval >
+<#assign company = data.company >
+<#assign traslate = data.traslate >
+<#assign movements = data.movements >
+<#assign pdfStandard = company.pdfStandard >
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pdf PUBLIC "-//big.faceless.org//report" "report-1.1.dtd">
+<pdf>
+   <head>
+      <meta name="title" value="Libro Inventario y Balance" />
+      <macrolist>
+         <macro id = "cabecera">
+            <table width="100%">
+                <tr>
+                    <td width="100%" align="center">${company.title}</td>
+                </tr>
+                <tr>
+                    <td width="100%" align="center">${company.razon}</td>
+                </tr>
+                <tr>
+                    <td width="100%" align="center">${company.ruc}</td>
+                </tr>
+                <tr>
+                    <td width="100%" align="center">${company.date}</td>
+                </tr>
+                <tr>
+                    <td width="100%" align="center">${company.mlb}</td>
+                </tr>
+                <tr>
+                  <td width="100%" align="center">${pdfStandard.origin}</td>
+              </tr>
+              <tr>
+                  <td width="100%" align="center">${pdfStandard.todays}</td>
+              </tr>
+              <tr>
+                  <td width="100%" align="center">${pdfStandard.currentTime}</td>
+              </tr>
+            </table>
+         </macro>
+         <macro id="myFooter">
+            <p align="right">
+               ${pdfStandard.page} <pagenumber/> ${pdfStandard.of} <totalpages/>
+            </p>
+         </macro>
+      </macrolist>
+   </head>
+   <body background-color="white" font-size="8" size="A4" header = "cabecera" footer="myFooter" header-height="40mm" footer-height="25mm">
+      <table style="font-family: Verdana, Arial, Helvetica, sans-serif; width:100%" >
+         <thead>
+            <tr>
+               <td width="25%" align = "center " style= "border:1px solid black; font-weight:bold"> ${traslate.colum1} </td>
+               <td width="25%" align = "center " style= "border:1px solid black; font-weight:bold"> ${traslate.colum2} </td>
+               <td width="25%" align = "center " style= "border:1px solid black; font-weight:bold"> ${traslate.colum3} </td>
+            </tr>
+         </thead>
+         <tbody>
+            <#list movements as mov>
+               <tr>
+                  <td width="25%" align = "center " style= "border:1px solid black">${mov.colum1}</td>
+                  <td width="25%" align = "center " style= "border:1px solid black">${mov.colum2}</td>
+                  <td width="25%" align = "right" style= "border:1px solid black">${mov.colum3}</td>
+               </tr>
+            </#list>
+            <tr>
+               <td width="25%" align = "center " style= "border:1px solid black"></td>
+               <td width="25%" align = "center " style= "border:1px solid black">${traslate.diferencia}</td>
+               <td width="25%" align = "right" style= "border:1px solid black">${company.total}</td>
+            </tr>
+         </tbody>
+      </table>
+  </body>
+</pdf>
